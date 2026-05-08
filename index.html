@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>母親節賀卡 · 塗鴉版</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Noto+Sans+TC:wght@900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      background: #1a0f00;
+    }
+
+    /* ── 主卡片：磚牆感 ── */
+    .card {
+      width: 700px;
+      background: #1c1200;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 0 0 3px #e55c00, 0 0 0 7px #1c1200, 0 0 0 10px #ffb347, 0 20px 60px rgba(0,0,0,0.7);
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 40px 20px;
+    }
+
+    /* ── 頂部塗鴉標題區 ── */
+    .card-header {
+      position: relative;
+      padding: 28px 30px 22px;
+      background: #111;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    /* 噴漆背景色塊 */
+    .spray-bg {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(35px);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .spray-bg.pink  { width:260px; height:180px; background:#cc3d00; top:-60px; left:-40px; }
+    .spray-bg.blue  { width:220px; height:160px; background:#ff8c00; top:-50px; right:-30px; }
+    .spray-bg.yellow{ width:180px; height:120px; background:#ffb347; bottom:-20px; left:50%; transform:translateX(-50%); }
+
+    /* HAPPY MOTHER'S DAY 英文 */
+    .graffiti-en {
+      font-family: 'Rock Salt', cursive;
+      font-size: 15px;
+      color: #ffb347;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      position: relative; z-index: 1;
+      text-shadow: 0 0 10px #ffb34788;
+      margin-bottom: 6px;
+    }
+
+    /* 主標題：母親節快樂 */
+    .graffiti-title {
+      font-family: 'Noto Sans TC', sans-serif;
+      font-weight: 900;
+      font-size: 56px;
+      color: #fff5ee;
+      letter-spacing: 4px;
+      position: relative; z-index: 1;
+      line-height: 1;
+      text-shadow:
+        3px  3px 0 #e55c00,
+        -3px -3px 0 #e55c00,
+        3px -3px 0 #e55c00,
+        -3px  3px 0 #e55c00,
+        6px  6px 0 #00000066,
+        0 0 30px #ff8c0088;
+    }
+
+    /* 日期標籤 */
+    .date-tag {
+      display: inline-block;
+      margin-top: 10px;
+      background: #ff8c00;
+      color: #fff5ee;
+      font-family: 'Rock Salt', cursive;
+      font-size: 13px;
+      padding: 3px 14px;
+      border-radius: 3px;
+      letter-spacing: 2px;
+      transform: rotate(-1.5deg);
+      position: relative; z-index: 1;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+    }
+
+    /* ── 照片區 ── */
+    .photo-wrap {
+      position: relative;
+      width: 100%;
+      height: 450px;
+      overflow: hidden;
+    }
+    .photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      display: block;
+      filter: contrast(1.08) saturate(1.1);
+    }
+
+    /* 照片上的塗鴉貼紙覆層 */
+    .photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 55%, rgba(20,20,20,0.85) 100%);
+    }
+
+    /* 漂浮在照片上的塗鴉文字 */
+    .float-graffiti {
+      position: absolute;
+      font-family: 'Rock Salt', cursive;
+      pointer-events: none;
+    }
+    .float-g1 {
+      top: 14px; left: 18px;
+      font-size: 22px;
+      color: #ff6600;
+      text-shadow: 2px 2px 0 #5a1e00, -1px -1px 0 #5a1e00, 1px -1px 0 #5a1e00, -1px 1px 0 #5a1e00;
+      transform: rotate(-8deg);
+    }
+    .float-g2 {
+      top: 18px; right: 20px;
+      font-size: 18px;
+      color: #ffd4a0;
+      text-shadow: 2px 2px 0 #5a1e00, -1px -1px 0 #5a1e00;
+      transform: rotate(5deg);
+    }
+    .float-g3 {
+      bottom: 80px; right: 22px;
+      font-size: 20px;
+      color: #ffb347;
+      text-shadow: 2px 2px 0 #3d1200, -1px -1px 0 #3d1200;
+      transform: rotate(3deg);
+    }
+
+    /* 底部照片文字（在漸層上） */
+    .photo-bottom-text {
+      position: absolute;
+      bottom: 16px;
+      left: 0; right: 0;
+      text-align: center;
+      font-family: 'Rock Salt', cursive;
+      font-size: 11px;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 3px;
+    }
+
+    /* ── 主文字區 ── */
+    .card-body {
+      background: #111;
+      padding: 24px 36px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 背景噴漆裝飾 */
+    .body-spray {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+    .body-spray.s1 { width:200px; height:120px; background:#cc3d00; top:-30px; left:-40px; }
+    .body-spray.s2 { width:180px; height:100px; background:#ff8c00; bottom:-20px; right:-20px; }
+
+    /* 主訊息容器 */
+    .msg-container {
+      position: relative; z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* 每行文字：塗鴉風格 */
+    .msg-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* 大字粗體 */
+    .msg-big {
+      font-family: 'Rock Salt', cursive;
+      font-size: 20px;
+      color: #ffd4a0;
+      text-shadow:
+        2px  2px 0 #7a2e00,
+        -2px -2px 0 #7a2e00,
+        2px -2px 0 #7a2e00,
+        -2px  2px 0 #7a2e00;
+      letter-spacing: 2px;
+    }
+
+    /* 橘色深淺強調字 */
+    .msg-accent {
+      font-family: 'Rock Salt', cursive;
+      font-size: 24px;
+      letter-spacing: 2px;
+    }
+    .accent-pink   { color: #ff6600; text-shadow: 0 0 16px #ff660099, 2px 2px 0 #4a1800; }
+    .accent-cyan   { color: #ffb347; text-shadow: 0 0 16px #ffb34799, 2px 2px 0 #4a1800; }
+    .accent-yellow { color: #ff8c00; text-shadow: 0 0 16px #ff8c0099, 2px 2px 0 #4a1800; }
+    .accent-lime   { color: #ffd4a0; text-shadow: 0 0 16px #ffd4a099, 2px 2px 0 #4a1800; }
+
+    /* 小字副訊息 */
+    .msg-sub {
+      font-family: 'Rock Salt', cursive;
+      font-size: 16px;
+      color: #cc7a3a;
+      letter-spacing: 2px;
+      margin-top: 4px;
+      text-align: center;
+    }
+
+    /* 塗鴉貼紙標籤 */
+    .tag-sticker {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 3px;
+      font-family: 'Rock Salt', cursive;
+      font-size: 14px;
+      font-weight: bold;
+      transform: rotate(-2deg);
+    }
+    .tag-pink   { background:#cc3d00; color:#ffeedd; }
+    .tag-cyan   { background:#ff8c00; color:#1a0800; }
+    .tag-yellow { background:#ffb347; color:#1a0800; transform: rotate(2deg); }
+
+    /* 分隔點 */
+    .dot-sep {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .dot-sep span {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* ── 底部 ── */
+    .card-footer {
+      background: #0d0d0d;
+      padding: 14px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 2px solid #222;
+    }
+    .footer-left {
+      font-family: 'Rock Salt', cursive;
+      font-size: 13px;
+      color: #ff8c00;
+      letter-spacing: 2px;
+    }
+    .footer-center {
+      font-size: 22px;
+      letter-spacing: 4px;
+    }
+    .footer-right {
+      font-family: 'Rock Salt', cursive;
+      font-size: 12px;
+      color: #ffb347;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- ── 頂部塗鴉標題 ── -->
+  <div class="card-header">
+    <div class="spray-bg pink"></div>
+    <div class="spray-bg blue"></div>
+    <div class="spray-bg yellow"></div>
+    <div class="graffiti-en">✦ 2026 · 05 · 10 ✦</div>
+    <div class="graffiti-title">Happy Mother's Day</div>
+    <div class="date-tag">For the best MOM 🌹</div>
+  </div>
+
+  <!-- ── 照片 ── -->
+  <div class="photo-wrap">
+    <img src="IMG_4790拷貝.png" alt="全家福">
+    <div class="photo-overlay"></div>
+    <div class="float-graffiti float-g1">FAMILY ♥</div>
+    <div class="float-graffiti float-g2">LOVE MOM!</div>
+    <div class="photo-bottom-text">— Family Portrait —</div>
+  </div>
+
+  <!-- ── 主文字 ── -->
+  <div class="card-body">
+    <div class="body-spray s1"></div>
+    <div class="body-spray s2"></div>
+
+    <div class="msg-container">
+
+      <div style="text-align:center; margin-bottom:6px;">
+        <span class="tag-sticker tag-pink">MOM</span>
+        &nbsp;
+        <span class="tag-sticker tag-cyan">You're the BEST</span>
+        &nbsp;
+        <span class="tag-sticker tag-yellow">❤️</span>
+      </div>
+
+      <div class="msg-line" style="justify-content:center;">
+        <span class="msg-big">Thank you for your</span>
+      </div>
+
+      <div class="msg-line" style="justify-content:center;">
+        <span class="msg-accent accent-pink">LOVE</span>
+        <span class="msg-big">&</span>
+        <span class="msg-accent accent-lime">WARMTH</span>
+      </div>
+
+      <div class="msg-line" style="justify-content:center;">
+        <span class="msg-big">You hold up</span>
+        <span class="msg-accent accent-cyan">our SKY</span>
+        <span class="msg-accent accent-yellow">☀</span>
+      </div>
+
+      <div class="msg-line" style="justify-content:center;">
+        <span class="msg-big">Your smile lights up</span>
+        <span class="msg-accent accent-pink">HOME</span>
+      </div>
+
+      <div class="dot-sep">
+        <span style="background:#cc3d00;"></span>
+        <span style="background:#e55c00;"></span>
+        <span style="background:#ff8c00;"></span>
+        <span style="background:#ffb347;"></span>
+        <span style="background:#ffd4a0;"></span>
+      </div>
+
+      <div class="msg-sub">
+        May you always be healthy & happy 🌸<br>
+        Every moment is better with you 💕
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 底部 ── -->
+  <div class="card-footer">
+    <div class="footer-left">For the best Mom</div>
+    <div class="footer-center">🌹🎨🌷</div>
+    <div class="footer-right">Made with ♥ · 2026</div>
+  </div>
+
+</div>
+
+</body>
+</html>
