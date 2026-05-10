@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🐢 陸龜可食用野花野草圖鑑</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Noto+Serif+TC:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green-dark: #1a4a2e;
+      --green-mid: #2d7a4f;
+      --green-light: #4caf78;
+      --green-pale: #e8f5ee;
+      --yellow: #f5c842;
+      --orange: #e8833a;
+      --brown: #8b5e3c;
+      --cream: #fdfaf4;
+      --shadow: rgba(0,0,0,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: var(--cream);
+      color: #2c2c2c;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .hero {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 60%, #3d9e65 100%);
+      color: white;
+      padding: 48px 24px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(255,255,255,0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 40%);
+    }
+    .hero-icon { font-size: 3.5rem; margin-bottom: 12px; display: block; position: relative; }
+    .hero h1 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      position: relative;
+    }
+    .hero p {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      opacity: 0.85;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.78rem;
+      margin-top: 12px;
+      position: relative;
+    }
+
+    /* ── Search & Filter ── */
+    .controls {
+      background: white;
+      border-bottom: 2px solid var(--green-pale);
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+    .search-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .search-input {
+      width: 100%;
+      padding: 10px 16px 10px 40px;
+      border: 2px solid #ddd;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--green-mid); }
+
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .tab {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 700;
+      transition: all 0.2s;
+      background: var(--green-pale);
+      color: var(--green-dark);
+    }
+    .tab:hover { background: var(--green-light); color: white; }
+    .tab.active { background: var(--green-mid); color: white; border-color: var(--green-dark); }
+
+    /* ── Grid ── */
+    .grid-wrap {
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 0 20px 60px;
+    }
+    .section-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.25rem;
+      color: var(--green-dark);
+      margin: 28px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 3px solid var(--green-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-count {
+      font-size: 0.78rem;
+      background: var(--green-pale);
+      color: var(--green-mid);
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-weight: 700;
+    }
+
+    .plants-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 18px;
+    }
+
+    /* ── Plant Card ── */
+    .plant-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 3px 14px var(--shadow);
+      cursor: pointer;
+      transition: transform 0.22s, box-shadow 0.22s;
+      border: 2px solid transparent;
+    }
+    .plant-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+      border-color: var(--green-light);
+    }
+    .card-img-wrap {
+      width: 100%;
+      height: 150px;
+      overflow: hidden;
+      background: var(--green-pale);
+      position: relative;
+    }
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    .plant-card:hover .card-img-wrap img { transform: scale(1.06); }
+    .img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      background: linear-gradient(135deg, #d4edda, #a8d5b5);
+    }
+    .card-category-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 10px;
+      padding: 2px 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+    .card-body { padding: 12px 14px 14px; }
+    .card-name {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--green-dark);
+      margin-bottom: 2px;
+    }
+    .card-alias {
+      font-size: 0.78rem;
+      color: #888;
+      margin-bottom: 5px;
+    }
+    .card-latin {
+      font-size: 0.75rem;
+      font-style: italic;
+      color: var(--green-mid);
+    }
+    .card-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(3px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white;
+      border-radius: 20px;
+      max-width: 540px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      animation: popIn 0.25s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .modal-img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 20px 20px 0 0;
+    }
+    .modal-img-placeholder {
+      width: 100%;
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      background: linear-gradient(135deg, #d4edda, #a8d5b5);
+      border-radius: 20px 20px 0 0;
+    }
+    .modal-body { padding: 22px 24px 28px; }
+    .modal-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.6rem;
+      color: var(--green-dark);
+      font-weight: 600;
+    }
+    .modal-alias { color: #777; font-size: 0.88rem; margin: 3px 0 6px; }
+    .modal-latin { font-style: italic; color: var(--green-mid); font-size: 0.92rem; }
+    .modal-section { margin-top: 16px; }
+    .modal-section h3 {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #aaa;
+      margin-bottom: 6px;
+    }
+    .modal-section p { font-size: 0.92rem; line-height: 1.65; color: #444; }
+    .modal-tip {
+      background: #fff8e8;
+      border-left: 4px solid var(--yellow);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 14px;
+      font-size: 0.87rem;
+      color: #6b4c1e;
+      line-height: 1.6;
+    }
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 34px;
+      height: 34px;
+      background: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 1001;
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: #f0f0f0; }
+
+    .modal-wrap { position: relative; }
+
+    /* ── Category colours ── */
+    .cat-plantain  { background: #d4f0e0; color: #1a6640; }
+    .cat-asteraceae{ background: #fff0c8; color: #7a5000; }
+    .cat-amaranth  { background: #fde0e0; color: #7a1a1a; }
+    .cat-pennywort { background: #d4eaff; color: #1a3d7a; }
+    .cat-moraceae  { background: #f0d4ff; color: #4a1a7a; }
+
+    /* ── Loading skeleton ── */
+    .img-loading {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #e8f5ee 25%, #c8ebd8 50%, #e8f5ee 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      opacity: 0.6;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ── No results ── */
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: #aaa;
+      font-size: 1.1rem;
+    }
+    .no-results span { font-size: 3rem; display: block; margin-bottom: 12px; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #bbb;
+      font-size: 0.78rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <span class="hero-icon">🐢</span>
+  <h1>陸龜可食用野花野草圖鑑</h1>
+  <p>台灣常見野生植物 · 安全可餵食清單</p>
+  <span class="hero-badge">⚠️ 餵食前請確認採集地點未噴農藥，洗淨後再給龜食用</span>
+</div>
+
+<!-- Controls -->
+<div class="controls">
+  <div class="search-wrap">
+    <input class="search-input" type="text" id="searchInput" placeholder="搜尋植物名稱、別名或學名…">
+    <div class="filter-tabs">
+      <button class="tab active" data-filter="all">🌿 全部</button>
+      <button class="tab" data-filter="plantain">車前草類</button>
+      <button class="tab" data-filter="asteraceae">菊科類</button>
+      <button class="tab" data-filter="amaranth">莧科類</button>
+      <button class="tab" data-filter="pennywort">天胡荽類</button>
+      <button class="tab" data-filter="moraceae">桑科類</button>
+    </div>
+  </div>
+</div>
+
+<!-- Grid -->
+<div class="grid-wrap" id="gridWrap"></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-wrap">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal" id="modal"></div>
+  </div>
+</div>
+
+<footer>圖片來源：iNaturalist / Wikipedia（CC授權）· 資料僅供參考，如有疑慮請諮詢獸醫</footer>
+
+<script>
+/* ── Plant data ── */
+const plants = [
+  // 車前草類
+  { id:1,  category:'plantain',   catLabel:'車前草類', name:'車前草',     alias:'五筋草', latin:'Plantago asiatica',           emoji:'🌿', inat:'Plantago asiatica',           wiki:'Plantago asiatica',           desc:'多年生草本，蓮座狀葉叢，葉脈明顯平行。常見於路邊、草坪、田邊濕潤處。全株可食，葉、穗均可餵龜。', tip:'富含黏液質與多糖，有助消化道健康。葉片較寬，辨識容易。' },
+  { id:2,  category:'plantain',   catLabel:'車前草類', name:'長葉車前草', alias:'',       latin:'Plantago lanceolata',          emoji:'🌿', inat:'Plantago lanceolata',          wiki:'Plantago lanceolata',          desc:'葉片細長如披針形，5條葉脈明顯。原產歐洲，已廣布台灣各地草地。',                                       tip:'與車前草同功效，葉片細長為主要辨識特徵。' },
+  { id:3,  category:'plantain',   catLabel:'車前草類', name:'大車前草',   alias:'',       latin:'Plantago major',               emoji:'🌿', inat:'Plantago major',               wiki:'Plantago major',               desc:'葉片卵形至橢圓形，比車前草更大，葉柄明顯。廣泛分布於全球溫帶地區。',                                   tip:'葉片最大，餵食份量相對充足，陸龜很喜愛。' },
+  { id:4,  category:'plantain',   catLabel:'車前草類', name:'毛車前草',   alias:'',       latin:'Plantago virginica',           emoji:'🌿', inat:'Plantago virginica',           wiki:'Plantago virginica',           desc:'葉片及花穗上密生白色軟毛，是其主要辨識特徵。常見於台灣低海拔草地及路旁。',                             tip:'毛茸茸的質感獨特，陸龜一般接受度良好。' },
+  // 菊科類
+  { id:5,  category:'asteraceae', catLabel:'菊科類',   name:'小苦英',     alias:'兔兒菜', latin:'Ixeris chinensis',             emoji:'🌼', inat:'Ixeris chinensis',             wiki:'Ixeris chinensis',             desc:'蓮座狀葉叢，葉緣具疏鋸齒，開黃色頭狀花序。汁液略帶苦味，含菊苣苦素。',                                 tip:'苦味植物有助腸道蠕動，適量餵食。' },
+  { id:6,  category:'asteraceae', catLabel:'菊科類',   name:'黃鵪菜',     alias:'',       latin:'Youngia japonica',             emoji:'🌼', inat:'Youngia japonica',             wiki:'Youngia japonica',             desc:'一年生或二年生草本，葉羽狀深裂，開小型黃花。台灣極常見的野草，幾乎全年可見。',                           tip:'嫩葉最適合餵食，老葉較硬。' },
+  { id:7,  category:'asteraceae', catLabel:'菊科類',   name:'昭和草',     alias:'飛機草', latin:'Crassocephalum crepidioides',  emoji:'🌼', inat:'Crassocephalum crepidioides',  wiki:'Crassocephalum crepidioides',  desc:'莖直立多汁，葉互生，開橘紅色頭狀花。二戰時期隨補給機引入台灣，故名「飛機草」。',                       tip:'英名 Ebolo / Fireweed，柔嫩多汁，陸龜食用性佳。' },
+  { id:8,  category:'asteraceae', catLabel:'菊科類',   name:'咸豐草',     alias:'鬼針草', latin:'Bidens alba',                  emoji:'🌼', inat:'Bidens alba',                  wiki:'Bidens alba',                  desc:'白色花瓣搭配黃色中心，結有帶鉤刺的果實，容易附著衣物。台灣最常見野草之一。',                             tip:'葉片及嫩梢均可食，花也可餵食，全年供應穩定。' },
+  { id:9,  category:'asteraceae', catLabel:'菊科類',   name:'鬼苦苣',     alias:'',       latin:'Sonchus asper',                emoji:'🌼', inat:'Sonchus asper',                wiki:'Sonchus asper',                desc:'葉緣具尖刺，葉基耳狀抱莖。莖葉斷裂時流出白色乳汁。英名 Spiny Sowthistle。',                             tip:'葉緣刺較尖銳，建議摘除後再餵，避免刺傷口腔。' },
+  { id:10, category:'asteraceae', catLabel:'菊科類',   name:'紫背草',     alias:'一點紅', latin:'Emilia sonchifolia',           emoji:'🌼', inat:'Emilia sonchifolia',           wiki:'Emilia sonchifolia',           desc:'葉背呈紫紅色是最大特徵，開粉紫色頭狀花。英名 Lilac Tasselflower，廣布熱帶亞洲。',                       tip:'葉背紫色極具辨識性，全株可食，陸龜接受度高。' },
+  { id:11, category:'asteraceae', catLabel:'菊科類',   name:'蒲公英',     alias:'',       latin:'Taraxacum officinale',         emoji:'🌼', inat:'Taraxacum officinale',         wiki:'Taraxacum officinale',         desc:'蓮座狀葉叢，葉緣羽狀深裂，開鮮黃色花，結絨球狀果序。富含維生素與礦物質。',                             tip:'陸龜最愛的植物之一！葉、花、根均可食，營養豐富。' },
+  { id:12, category:'asteraceae', catLabel:'菊科類',   name:'馬蘭',       alias:'雞兒腸', latin:'Kalimeris indica',             emoji:'🌼', inat:'Kalimeris indica',             wiki:'Kalimeris indica',             desc:'多年生草本，開白色或淡紫色頭狀花，葉片橢圓形至倒披針形。英名 Indian Aster。',                           tip:'嫩葉柔軟，適合各年齡層陸龜食用。' },
+  // 莧科類
+  { id:13, category:'amaranth',   catLabel:'莧科類',   name:'野莧',       alias:'細莧',   latin:'Amaranthus viridis',           emoji:'🌱', inat:'Amaranthus viridis',           wiki:'Amaranthus viridis',           desc:'莖直立，葉菱形至卵形，開小型穗狀花序。白花種較常見，分布於路旁、荒地。',                                 tip:'含草酸，不宜過量餵食，偶爾搭配其他植物即可。' },
+  { id:14, category:'amaranth',   catLabel:'莧科類',   name:'刺莧',       alias:'',       latin:'Amaranthus spinosus',          emoji:'🌱', inat:'Amaranthus spinosus',          wiki:'Amaranthus spinosus',          desc:'葉腋具尖銳長刺為主要特徵，莖帶紫紅色。英名 Spiny Amaranth，廣布熱帶地區。',                             tip:'⚠️ 餵食前務必去除葉腋尖刺，防止刺傷口腔，去刺後可正常餵食。' },
+  // 天胡荽類
+  { id:15, category:'pennywort',  catLabel:'天胡荽類', name:'銅錢草',     alias:'盾形天胡荽', latin:'Hydrocotyle verticillata', emoji:'💧', inat:'Hydrocotyle verticillata',     wiki:'Hydrocotyle verticillata',     desc:'圓形葉如小銅錢，葉柄從葉片中央著生，輪生型排列。常見於水族造景及濕地環境。',                           tip:'英名 Whorled Pennywort，喜水濕環境，含豐富水分，對陸龜補水有益。' },
+  { id:16, category:'pennywort',  catLabel:'天胡荽類', name:'天胡荽',     alias:'',       latin:'Hydrocotyle sibthorpioides',   emoji:'💧', inat:'Hydrocotyle sibthorpioides',   wiki:'Hydrocotyle sibthorpioides',   desc:'葉片小而圓，邊緣淺裂，貼地蔓生。英名 Lawn Marshpennywort，常見於草坪及潮濕地面。',                     tip:'植株小巧，通常成片生長，採集容易，適合混入其他食材餵食。' },
+  { id:17, category:'pennywort',  catLabel:'天胡荽類', name:'馬蹄金',     alias:'',       latin:'Dichondra repens',             emoji:'💧', inat:'Dichondra repens',             wiki:'Dichondra repens',             desc:'葉片腎形至圓形，形如馬蹄，貼地匍匐生長。常被用作草坪替代植物。',                                       tip:'葉形可愛，陸龜喜愛食用，常見於公園草坪，易於採集。' },
+  // 桑科類
+  { id:18, category:'moraceae',   catLabel:'桑科類',   name:'桑樹',       alias:'',       latin:'Morus alba',                  emoji:'🌳', inat:'Morus alba',                   wiki:'Morus alba',                   skipVeg:true, desc:'落葉喬木，葉片橢圓形至卵形，葉緣具鋸齒。結黑色或白色聚合果（桑椹）。英名 Mulberry。',                 tip:'葉片富含蛋白質與鈣質，是很優質的陸龜食材。新鮮嫩葉最佳。' },
+  { id:19, category:'moraceae',   catLabel:'桑科類',   name:'構樹',       alias:'鹿仔樹', latin:'Broussonetia papyrifera',      emoji:'🌳', inat:'Broussonetia papyrifera',      wiki:'Broussonetia papyrifera',      desc:'葉形多變，同一棵樹上可見卵形、心形及掌狀3～5裂葉，是重要辨識特徵。英名 Paper Mulberry，台灣極常見。', tip:'葉片大且柔軟，陸龜非常喜愛。構樹汁液對人有輕微刺激，但對陸龜無礙，可正常餵食。' },
+];
+
+const categoryOrder = ['plantain','asteraceae','amaranth','pennywort','moraceae'];
+const categoryMeta = {
+  plantain:   { label:'🌿 車前草類 Plantain',    cls:'cat-plantain'   },
+  asteraceae: { label:'🌼 菊科類 Asteraceae',     cls:'cat-asteraceae' },
+  amaranth:   { label:'🌱 莧科類 Amaranthaceae',  cls:'cat-amaranth'   },
+  pennywort:  { label:'💧 天胡荽類 Pennywort',    cls:'cat-pennywort'  },
+  moraceae:   { label:'🌳 桑科類 Moraceae',       cls:'cat-moraceae'   },
+};
+
+/* ── Image cache & fetch ── */
+const imgCache = {};   // id -> url | null
+
+const LEAF_KEYWORDS    = ['leaf', 'leaves', 'foliage', 'frond', 'blade', '葉', '叶'];
+const NONLEAF_KEYWORDS = ['flower', 'bloom', 'blossom', 'fruit', 'seed', 'pod', 'berry',
+                          '花', '果', '種子', '開花'];
+const ANIMAL_KEYWORDS  = ['bird', 'cat', 'dog', 'possum', 'opossum', 'squirrel', 'rat',
+                          'mouse', 'deer', 'insect', 'bug', 'caterpillar', 'worm',
+                          '鳥', '貓', '狗', '松鼠', '蟲', '毛毛蟲'];
+
+// Score an observation for how likely it shows leaves (higher = better)
+function leafScore(ob) {
+  let score = 0;
+  const desc = (ob.description || '').toLowerCase();
+  const tags = (ob.tag_list || []).join(' ').toLowerCase();
+  const text  = desc + ' ' + tags;
+
+  // iNaturalist Plant Phenology annotation
+  for (const a of (ob.annotations || [])) {
+    const attr  = a.controlled_attribute?.label || '';
+    const val   = a.controlled_value?.label    || '';
+    if (attr === 'Plant Phenology') {
+      if (val === 'No Evidence of Flowering') score += 5;   // vegetative → likely leaf
+      if (['Flowering','Fruiting','Flower Budding'].includes(val)) score -= 4;
+    }
+  }
+
+  // Text signals
+  if (LEAF_KEYWORDS.some(k => text.includes(k)))    score += 3;
+  if (NONLEAF_KEYWORDS.some(k => text.includes(k))) score -= 3;
+  if (ANIMAL_KEYWORDS.some(k => text.includes(k)))  score -= 5;
+
+  return score;
+}
+
+// Strategy 1: query iNaturalist "No Evidence of Flowering" (vegetative) directly
+async function fetchInatVegetative(name) {
+  try {
+    // term_id=12 = Plant Phenology, term_value_id=21 = No Evidence of Flowering
+    const url = `https://api.inaturalist.org/v1/observations?taxon_name=${encodeURIComponent(name)}&quality_grade=research&photos=true&term_id=12&term_value_id=21&per_page=5&order_by=votes&order=desc`;
+    const r = await fetch(url);
+    const d = await r.json();
+    const obs = (d.results || []).filter(o => o.photos?.length);
+    return obs[0]?.photos[0]?.url?.replace('/square.', '/medium.') || null;
+  } catch { return null; }
+}
+
+// Strategy 2: score 30 top-voted observations and pick best leaf candidate
+async function fetchInatScored(name) {
+  try {
+    const url = `https://api.inaturalist.org/v1/observations?taxon_name=${encodeURIComponent(name)}&quality_grade=research&photos=true&per_page=30&order_by=votes&order=desc`;
+    const r = await fetch(url);
+    const d = await r.json();
+    const obs = (d.results || []).filter(o => o.photos?.length);
+    if (!obs.length) return null;
+
+    let best = obs[0], bestScore = -Infinity;
+    for (const ob of obs) {
+      const s = leafScore(ob);
+      if (s > bestScore) { bestScore = s; best = ob; }
+    }
+    return best.photos[0].url.replace('/square.', '/medium.');
+  } catch { return null; }
+}
+
+// iNaturalist: taxa default photo (fallback)
+async function fetchInatTaxa(name) {
+  try {
+    const r = await fetch(`https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(name)}&rank=species&per_page=1`);
+    const d = await r.json();
+    return d.results?.[0]?.default_photo?.medium_url || null;
+  } catch { return null; }
+}
+
+// Wikipedia: article lead image (last resort)
+async function fetchWiki(title) {
+  try {
+    const t = title.replace(/ /g, '_');
+    const r = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(t)}&prop=pageimages&format=json&pithumbsize=480&origin=*`);
+    const d = await r.json();
+    const page = Object.values(d.query.pages)[0];
+    return page.thumbnail?.source || null;
+  } catch { return null; }
+}
+
+async function loadImage(plant) {
+  // 1. Vegetative query (skip if flagged)  2. Scored observations  3. Taxa default  4. Wikipedia
+  let url = plant.skipVeg ? null : await fetchInatVegetative(plant.inat);
+  if (!url) url = await fetchInatScored(plant.inat);
+  if (!url) url = await fetchInatTaxa(plant.inat);
+  if (!url) url = await fetchWiki(plant.wiki);
+  imgCache[plant.id] = url;
+  const wrap = document.getElementById(`img-wrap-${plant.id}`);
+  if (wrap) applyImage(wrap, plant);
+}
+
+function applyImage(wrap, plant) {
+  const url = imgCache[plant.id];
+  if (url) {
+    wrap.innerHTML = `
+      <img src="${url}" alt="${plant.name}" loading="lazy"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="img-placeholder" style="display:none">${plant.emoji}</div>
+      <span class="card-category-badge ${categoryMeta[plant.category].cls}">${plant.catLabel}</span>`;
+  } else {
+    wrap.innerHTML = `
+      <div class="img-placeholder">${plant.emoji}</div>
+      <span class="card-category-badge ${categoryMeta[plant.category].cls}">${plant.catLabel}</span>`;
+  }
+}
+
+/* ── State ── */
+let activeFilter = 'all';
+let searchQuery  = '';
+
+function getFiltered() {
+  return plants.filter(p => {
+    const matchCat = activeFilter === 'all' || p.category === activeFilter;
+    const q = searchQuery.toLowerCase();
+    const matchSearch = !q ||
+      p.name.includes(q) ||
+      (p.alias && p.alias.includes(q)) ||
+      p.latin.toLowerCase().includes(q) ||
+      p.catLabel.includes(q);
+    return matchCat && matchSearch;
+  });
+}
+
+function render() {
+  const wrap = document.getElementById('gridWrap');
+  const filtered = getFiltered();
+  wrap.innerHTML = '';
+
+  if (!filtered.length) {
+    wrap.innerHTML = `<div class="no-results"><span>🔍</span>找不到符合「${searchQuery}」的植物</div>`;
+    return;
+  }
+
+  const grouped = {};
+  categoryOrder.forEach(cat => {
+    const items = filtered.filter(p => p.category === cat);
+    if (items.length) grouped[cat] = items;
+  });
+
+  Object.entries(grouped).forEach(([cat, items]) => {
+    const meta = categoryMeta[cat];
+    const section = document.createElement('div');
+
+    const title = document.createElement('div');
+    title.className = 'section-title';
+    title.innerHTML = `${meta.label} <span class="section-count">${items.length} 種</span>`;
+    section.appendChild(title);
+
+    const grid = document.createElement('div');
+    grid.className = 'plants-grid';
+
+    items.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'plant-card';
+
+      // Image area – show shimmer if not yet loaded
+      const imgWrapHtml = imgCache[p.id] !== undefined
+        ? ''  // will be set by applyImage below
+        : `<div class="img-loading">${p.emoji}</div>
+           <span class="card-category-badge ${meta.cls}">${p.catLabel}</span>`;
+
+      card.innerHTML = `
+        <div class="card-img-wrap" id="img-wrap-${p.id}">${imgWrapHtml}</div>
+        <div class="card-body">
+          <div class="card-name">${p.name}</div>
+          ${p.alias ? `<div class="card-alias">別名：${p.alias}</div>` : ''}
+          <div class="card-latin">${p.latin}</div>
+          <span class="card-tag ${meta.cls}">${p.catLabel}</span>
+        </div>`;
+
+      // If image already cached, apply immediately
+      if (imgCache[p.id] !== undefined) {
+        applyImage(card.querySelector(`#img-wrap-${p.id}`), p);
+      }
+
+      card.addEventListener('click', () => openModal(p));
+      grid.appendChild(card);
+    });
+
+    section.appendChild(grid);
+    wrap.appendChild(section);
+  });
+}
+
+/* ── Modal ── */
+function openModal(p) {
+  const meta = categoryMeta[p.category];
+  const modal = document.getElementById('modal');
+  const imgUrl = imgCache[p.id];
+
+  modal.innerHTML = `
+    ${imgUrl
+      ? `<img class="modal-img" src="${imgUrl}" alt="${p.name}"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+         <div class="modal-img-placeholder" style="display:none">${p.emoji}</div>`
+      : `<div class="modal-img-placeholder">${p.emoji}</div>`}
+    <div class="modal-body">
+      <span class="card-tag ${meta.cls}" style="margin-bottom:8px;display:inline-block">${p.catLabel}</span>
+      <div class="modal-title">${p.name}</div>
+      ${p.alias ? `<div class="modal-alias">別名：${p.alias}</div>` : ''}
+      <div class="modal-latin">${p.latin}</div>
+      <div class="modal-section"><h3>植物描述</h3><p>${p.desc}</p></div>
+      <div class="modal-tip">💡 ${p.tip}</div>
+    </div>`;
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+});
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeFilter = tab.dataset.filter;
+    render();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value;
+  render();
+});
+
+/* ── Boot ── */
+render();   // show shimmer immediately
+
+// Kick off all image fetches in the background; re-render each card when done
+plants.forEach(p => {
+  loadImage(p);  // updates DOM directly when ready
+});
+</script>
+</body>
+</html>
