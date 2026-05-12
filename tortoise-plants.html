@@ -324,6 +324,37 @@
     .cat-pennywort { background: #d4eaff; color: #1a3d7a; }
     .cat-moraceae  { background: #f0d4ff; color: #4a1a7a; }
 
+    /* ── Frequency badge ── */
+    .freq-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .freq-daily    { background: #d4f0e0; color: #1a6640; border: 1.5px solid #4caf78; }
+    .freq-moderate { background: #fff8d4; color: #7a5a00; border: 1.5px solid #e8c830; }
+    .freq-occasional{ background: #fde8d4; color: #7a3a00; border: 1.5px solid #e8833a; }
+
+    /* Modal freq block */
+    .modal-freq {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+    }
+    .modal-freq.freq-daily    { background: #edfaf3; border-left: 4px solid #4caf78; color: #1a5a35; }
+    .modal-freq.freq-moderate { background: #fffae8; border-left: 4px solid #e8c830; color: #5a4200; }
+    .modal-freq.freq-occasional{ background: #fff3e8; border-left: 4px solid #e8833a; color: #5a2e00; }
+    .modal-freq-label { font-weight: 900; font-size: 1rem; }
+
     /* ── Loading skeleton ── */
     .img-loading {
       width: 100%;
@@ -402,30 +433,36 @@
 /* ── Plant data ── */
 const plants = [
   // 車前草類
-  { id:1,  category:'plantain',   catLabel:'車前草類', name:'車前草',     alias:'五筋草', latin:'Plantago asiatica',           emoji:'🌿', inat:'Plantago asiatica',           wiki:'Plantago asiatica',           desc:'多年生草本，蓮座狀葉叢，葉脈明顯平行。常見於路邊、草坪、田邊濕潤處。全株可食，葉、穗均可餵龜。', tip:'富含黏液質與多糖，有助消化道健康。葉片較寬，辨識容易。' },
-  { id:2,  category:'plantain',   catLabel:'車前草類', name:'長葉車前草', alias:'',       latin:'Plantago lanceolata',          emoji:'🌿', inat:'Plantago lanceolata',          wiki:'Plantago lanceolata',          desc:'葉片細長如披針形，5條葉脈明顯。原產歐洲，已廣布台灣各地草地。',                                       tip:'與車前草同功效，葉片細長為主要辨識特徵。' },
-  { id:3,  category:'plantain',   catLabel:'車前草類', name:'大車前草',   alias:'',       latin:'Plantago major',               emoji:'🌿', inat:'Plantago major',               wiki:'Plantago major',               desc:'葉片卵形至橢圓形，比車前草更大，葉柄明顯。廣泛分布於全球溫帶地區。',                                   tip:'葉片最大，餵食份量相對充足，陸龜很喜愛。' },
-  { id:4,  category:'plantain',   catLabel:'車前草類', name:'毛車前草',   alias:'',       latin:'Plantago virginica',           emoji:'🌿', inat:'Plantago virginica',           wiki:'Plantago virginica',           desc:'葉片及花穗上密生白色軟毛，是其主要辨識特徵。常見於台灣低海拔草地及路旁。',                             tip:'毛茸茸的質感獨特，陸龜一般接受度良好。' },
+  { id:1,  category:'plantain',   catLabel:'車前草類', name:'車前草',     alias:'五筋草', latin:'Plantago asiatica',           emoji:'🌿', freq:'daily',      inat:'Plantago asiatica',           wiki:'Plantago asiatica',           desc:'多年生草本，蓮座狀葉叢，葉脈明顯平行。常見於路邊、草坪、田邊濕潤處。全株可食，葉、穗均可餵龜。', tip:'富含黏液質與多糖，有助消化道健康。葉片較寬，辨識容易。' },
+  { id:2,  category:'plantain',   catLabel:'車前草類', name:'長葉車前草', alias:'',       latin:'Plantago lanceolata',          emoji:'🌿', freq:'daily',      inat:'Plantago lanceolata',          wiki:'Plantago lanceolata',          desc:'葉片細長如披針形，5條葉脈明顯。原產歐洲，已廣布台灣各地草地。',                                       tip:'與車前草同功效，葉片細長為主要辨識特徵。' },
+  { id:3,  category:'plantain',   catLabel:'車前草類', name:'大車前草',   alias:'',       latin:'Plantago major',               emoji:'🌿', freq:'daily',      inat:'Plantago major',               wiki:'Plantago major',               desc:'葉片卵形至橢圓形，比車前草更大，葉柄明顯。廣泛分布於全球溫帶地區。',                                   tip:'葉片最大，餵食份量相對充足，陸龜很喜愛。' },
+  { id:4,  category:'plantain',   catLabel:'車前草類', name:'毛車前草',   alias:'',       latin:'Plantago virginica',           emoji:'🌿', freq:'daily',      inat:'Plantago virginica',           wiki:'Plantago virginica',           desc:'葉片及花穗上密生白色軟毛，是其主要辨識特徵。常見於台灣低海拔草地及路旁。',                             tip:'毛茸茸的質感獨特，陸龜一般接受度良好。' },
   // 菊科類
-  { id:5,  category:'asteraceae', catLabel:'菊科類',   name:'小苦英',     alias:'兔兒菜', latin:'Ixeris chinensis',             emoji:'🌼', inat:'Ixeris chinensis',             wiki:'Ixeris chinensis',             desc:'蓮座狀葉叢，葉緣具疏鋸齒，開黃色頭狀花序。汁液略帶苦味，含菊苣苦素。',                                 tip:'苦味植物有助腸道蠕動，適量餵食。' },
-  { id:6,  category:'asteraceae', catLabel:'菊科類',   name:'黃鵪菜',     alias:'',       latin:'Youngia japonica',             emoji:'🌼', inat:'Youngia japonica',             wiki:'Youngia japonica',             desc:'一年生或二年生草本，葉羽狀深裂，開小型黃花。台灣極常見的野草，幾乎全年可見。',                           tip:'嫩葉最適合餵食，老葉較硬。' },
-  { id:7,  category:'asteraceae', catLabel:'菊科類',   name:'昭和草',     alias:'飛機草', latin:'Crassocephalum crepidioides',  emoji:'🌼', inat:'Crassocephalum crepidioides',  wiki:'Crassocephalum crepidioides',  desc:'莖直立多汁，葉互生，開橘紅色頭狀花。二戰時期隨補給機引入台灣，故名「飛機草」。',                       tip:'英名 Ebolo / Fireweed，柔嫩多汁，陸龜食用性佳。' },
-  { id:8,  category:'asteraceae', catLabel:'菊科類',   name:'咸豐草',     alias:'鬼針草', latin:'Bidens alba',                  emoji:'🌼', inat:'Bidens alba',                  wiki:'Bidens alba',                  desc:'白色花瓣搭配黃色中心，結有帶鉤刺的果實，容易附著衣物。台灣最常見野草之一。',                             tip:'葉片及嫩梢均可食，花也可餵食，全年供應穩定。' },
-  { id:9,  category:'asteraceae', catLabel:'菊科類',   name:'鬼苦苣',     alias:'',       latin:'Sonchus asper',                emoji:'🌼', inat:'Sonchus asper',                wiki:'Sonchus asper',                desc:'葉緣具尖刺，葉基耳狀抱莖。莖葉斷裂時流出白色乳汁。英名 Spiny Sowthistle。',                             tip:'葉緣刺較尖銳，建議摘除後再餵，避免刺傷口腔。' },
-  { id:10, category:'asteraceae', catLabel:'菊科類',   name:'紫背草',     alias:'一點紅', latin:'Emilia sonchifolia',           emoji:'🌼', inat:'Emilia sonchifolia',           wiki:'Emilia sonchifolia',           desc:'葉背呈紫紅色是最大特徵，開粉紫色頭狀花。英名 Lilac Tasselflower，廣布熱帶亞洲。',                       tip:'葉背紫色極具辨識性，全株可食，陸龜接受度高。' },
-  { id:11, category:'asteraceae', catLabel:'菊科類',   name:'蒲公英',     alias:'',       latin:'Taraxacum officinale',         emoji:'🌼', inat:'Taraxacum officinale',         wiki:'Taraxacum officinale',         desc:'蓮座狀葉叢，葉緣羽狀深裂，開鮮黃色花，結絨球狀果序。富含維生素與礦物質。',                             tip:'陸龜最愛的植物之一！葉、花、根均可食，營養豐富。' },
-  { id:12, category:'asteraceae', catLabel:'菊科類',   name:'馬蘭',       alias:'雞兒腸', latin:'Kalimeris indica',             emoji:'🌼', inat:'Kalimeris indica',             wiki:'Kalimeris indica',             desc:'多年生草本，開白色或淡紫色頭狀花，葉片橢圓形至倒披針形。英名 Indian Aster。',                           tip:'嫩葉柔軟，適合各年齡層陸龜食用。' },
+  { id:5,  category:'asteraceae', catLabel:'菊科類',   name:'小苦英',     alias:'兔兒菜', latin:'Ixeris chinensis',             emoji:'🌼', freq:'moderate',   inat:'Ixeris chinensis',             wiki:'Ixeris chinensis',             desc:'蓮座狀葉叢，葉緣具疏鋸齒，開黃色頭狀花序。汁液略帶苦味，含菊苣苦素。',                                 tip:'苦味植物有助腸道蠕動，適量餵食。' },
+  { id:6,  category:'asteraceae', catLabel:'菊科類',   name:'黃鵪菜',     alias:'',       latin:'Youngia japonica',             emoji:'🌼', freq:'moderate',   inat:'Youngia japonica',             wiki:'Youngia japonica',             desc:'一年生或二年生草本，葉羽狀深裂，開小型黃花。台灣極常見的野草，幾乎全年可見。',                           tip:'嫩葉最適合餵食，老葉較硬。' },
+  { id:7,  category:'asteraceae', catLabel:'菊科類',   name:'昭和草',     alias:'飛機草', latin:'Crassocephalum crepidioides',  emoji:'🌼', freq:'moderate',   inat:'Crassocephalum crepidioides',  wiki:'Crassocephalum crepidioides',  desc:'莖直立多汁，葉互生，開橘紅色頭狀花。二戰時期隨補給機引入台灣，故名「飛機草」。',                       tip:'英名 Ebolo / Fireweed，柔嫩多汁，陸龜食用性佳。' },
+  { id:8,  category:'asteraceae', catLabel:'菊科類',   name:'咸豐草',     alias:'鬼針草', latin:'Bidens alba',                  emoji:'🌼', freq:'daily',      inat:'Bidens alba',                  wiki:'Bidens alba',                  desc:'白色花瓣搭配黃色中心，結有帶鉤刺的果實，容易附著衣物。台灣最常見野草之一。',                             tip:'葉片及嫩梢均可食，花也可餵食，全年供應穩定。' },
+  { id:9,  category:'asteraceae', catLabel:'菊科類',   name:'鬼苦苣',     alias:'',       latin:'Sonchus asper',                emoji:'🌼', freq:'moderate',   inat:'Sonchus asper',                wiki:'Sonchus asper',                desc:'葉緣具尖刺，葉基耳狀抱莖。莖葉斷裂時流出白色乳汁。英名 Spiny Sowthistle。',                             tip:'葉緣刺較尖銳，建議摘除後再餵，避免刺傷口腔。' },
+  { id:10, category:'asteraceae', catLabel:'菊科類',   name:'紫背草',     alias:'一點紅', latin:'Emilia sonchifolia',           emoji:'🌼', freq:'moderate',   inat:'Emilia sonchifolia',           wiki:'Emilia sonchifolia',           desc:'葉背呈紫紅色是最大特徵，開粉紫色頭狀花。英名 Lilac Tasselflower，廣布熱帶亞洲。',                       tip:'葉背紫色極具辨識性，全株可食，陸龜接受度高。' },
+  { id:11, category:'asteraceae', catLabel:'菊科類',   name:'蒲公英',     alias:'',       latin:'Taraxacum officinale',         emoji:'🌼', freq:'moderate',   inat:'Taraxacum officinale',         wiki:'Taraxacum officinale',         desc:'蓮座狀葉叢，葉緣羽狀深裂，開鮮黃色花，結絨球狀果序。富含維生素與礦物質。',                             tip:'陸龜最愛的植物之一！葉、花、根均可食，營養豐富。' },
+  { id:12, category:'asteraceae', catLabel:'菊科類',   name:'馬蘭',       alias:'雞兒腸', latin:'Kalimeris indica',             emoji:'🌼', freq:'moderate',   inat:'Kalimeris indica',             wiki:'Kalimeris indica',             desc:'多年生草本，開白色或淡紫色頭狀花，葉片橢圓形至倒披針形。英名 Indian Aster。',                           tip:'嫩葉柔軟，適合各年齡層陸龜食用。' },
   // 莧科類
-  { id:13, category:'amaranth',   catLabel:'莧科類',   name:'野莧',       alias:'細莧',   latin:'Amaranthus viridis',           emoji:'🌱', inat:'Amaranthus viridis',           wiki:'Amaranthus viridis',           desc:'莖直立，葉菱形至卵形，開小型穗狀花序。白花種較常見，分布於路旁、荒地。',                                 tip:'含草酸，不宜過量餵食，偶爾搭配其他植物即可。' },
-  { id:14, category:'amaranth',   catLabel:'莧科類',   name:'刺莧',       alias:'',       latin:'Amaranthus spinosus',          emoji:'🌱', inat:'Amaranthus spinosus',          wiki:'Amaranthus spinosus',          desc:'葉腋具尖銳長刺為主要特徵，莖帶紫紅色。英名 Spiny Amaranth，廣布熱帶地區。',                             tip:'⚠️ 餵食前務必去除葉腋尖刺，防止刺傷口腔，去刺後可正常餵食。' },
+  { id:13, category:'amaranth',   catLabel:'莧科類',   name:'野莧',       alias:'細莧',   latin:'Amaranthus viridis',           emoji:'🌱', freq:'occasional', inat:'Amaranthus viridis',           wiki:'Amaranthus viridis',           desc:'莖直立，葉菱形至卵形，開小型穗狀花序。白花種較常見，分布於路旁、荒地。',                                 tip:'含草酸，不宜過量餵食，偶爾搭配其他植物即可。' },
+  { id:14, category:'amaranth',   catLabel:'莧科類',   name:'刺莧',       alias:'',       latin:'Amaranthus spinosus',          emoji:'🌱', freq:'occasional', inat:'Amaranthus spinosus',          wiki:'Amaranthus spinosus',          desc:'葉腋具尖銳長刺為主要特徵，莖帶紫紅色。英名 Spiny Amaranth，廣布熱帶地區。',                             tip:'⚠️ 餵食前務必去除葉腋尖刺，防止刺傷口腔，去刺後可正常餵食。' },
   // 天胡荽類
-  { id:15, category:'pennywort',  catLabel:'天胡荽類', name:'銅錢草',     alias:'盾形天胡荽', latin:'Hydrocotyle verticillata', emoji:'💧', inat:'Hydrocotyle verticillata',     wiki:'Hydrocotyle verticillata',     desc:'圓形葉如小銅錢，葉柄從葉片中央著生，輪生型排列。常見於水族造景及濕地環境。',                           tip:'英名 Whorled Pennywort，喜水濕環境，含豐富水分，對陸龜補水有益。' },
-  { id:16, category:'pennywort',  catLabel:'天胡荽類', name:'天胡荽',     alias:'',       latin:'Hydrocotyle sibthorpioides',   emoji:'💧', inat:'Hydrocotyle sibthorpioides',   wiki:'Hydrocotyle sibthorpioides',   desc:'葉片小而圓，邊緣淺裂，貼地蔓生。英名 Lawn Marshpennywort，常見於草坪及潮濕地面。',                     tip:'植株小巧，通常成片生長，採集容易，適合混入其他食材餵食。' },
-  { id:17, category:'pennywort',  catLabel:'天胡荽類', name:'馬蹄金',     alias:'',       latin:'Dichondra repens',             emoji:'💧', inat:'Dichondra repens',             wiki:'Dichondra repens',             desc:'葉片腎形至圓形，形如馬蹄，貼地匍匐生長。常被用作草坪替代植物。',                                       tip:'葉形可愛，陸龜喜愛食用，常見於公園草坪，易於採集。' },
+  { id:15, category:'pennywort',  catLabel:'天胡荽類', name:'銅錢草',     alias:'盾形天胡荽', latin:'Hydrocotyle verticillata', emoji:'💧', freq:'moderate',   inat:'Hydrocotyle verticillata',     wiki:'Hydrocotyle verticillata',     desc:'圓形葉如小銅錢，葉柄從葉片中央著生，輪生型排列。常見於水族造景及濕地環境。',                           tip:'英名 Whorled Pennywort，喜水濕環境，含豐富水分，對陸龜補水有益。' },
+  { id:16, category:'pennywort',  catLabel:'天胡荽類', name:'天胡荽',     alias:'',       latin:'Hydrocotyle sibthorpioides',   emoji:'💧', freq:'moderate',   inat:'Hydrocotyle sibthorpioides',   wiki:'Hydrocotyle sibthorpioides',   desc:'葉片小而圓，邊緣淺裂，貼地蔓生。英名 Lawn Marshpennywort，常見於草坪及潮濕地面。',                     tip:'植株小巧，通常成片生長，採集容易，適合混入其他食材餵食。' },
+  { id:17, category:'pennywort',  catLabel:'天胡荽類', name:'馬蹄金',     alias:'',       latin:'Dichondra repens',             emoji:'💧', freq:'moderate',   inat:'Dichondra repens',             wiki:'Dichondra repens',             desc:'葉片腎形至圓形，形如馬蹄，貼地匍匐生長。常被用作草坪替代植物。',                                       tip:'葉形可愛，陸龜喜愛食用，常見於公園草坪，易於採集。' },
   // 桑科類
-  { id:18, category:'moraceae',   catLabel:'桑科類',   name:'桑樹',       alias:'',       latin:'Morus alba',                  emoji:'🌳', inat:'Morus alba',                   wiki:'Morus alba',                   skipVeg:true, desc:'落葉喬木，葉片橢圓形至卵形，葉緣具鋸齒。結黑色或白色聚合果（桑椹）。英名 Mulberry。',                 tip:'葉片富含蛋白質與鈣質，是很優質的陸龜食材。新鮮嫩葉最佳。' },
-  { id:19, category:'moraceae',   catLabel:'桑科類',   name:'構樹',       alias:'鹿仔樹', latin:'Broussonetia papyrifera',      emoji:'🌳', inat:'Broussonetia papyrifera',      wiki:'Broussonetia papyrifera',      desc:'葉形多變，同一棵樹上可見卵形、心形及掌狀3～5裂葉，是重要辨識特徵。英名 Paper Mulberry，台灣極常見。', tip:'葉片大且柔軟，陸龜非常喜愛。構樹汁液對人有輕微刺激，但對陸龜無礙，可正常餵食。' },
+  { id:18, category:'moraceae',   catLabel:'桑科類',   name:'桑樹',       alias:'',       latin:'Morus alba',                  emoji:'🌳', freq:'daily',      inat:'Morus alba',                   wiki:'Morus alba',                   skipVeg:true, desc:'落葉喬木，葉片橢圓形至卵形，葉緣具鋸齒。結黑色或白色聚合果（桑椹）。英名 Mulberry。',                 tip:'葉片富含蛋白質與鈣質，是很優質的陸龜食材。新鮮嫩葉最佳。' },
+  { id:19, category:'moraceae',   catLabel:'桑科類',   name:'構樹',       alias:'鹿仔樹', latin:'Broussonetia papyrifera',      emoji:'🌳', freq:'daily',      inat:'Broussonetia papyrifera',      wiki:'Broussonetia papyrifera',      desc:'葉形多變，同一棵樹上可見卵形、心形及掌狀3～5裂葉，是重要辨識特徵。英名 Paper Mulberry，台灣極常見。', tip:'葉片大且柔軟，陸龜非常喜愛。構樹汁液對人有輕微刺激，但對陸龜無礙，可正常餵食。' },
 ];
+
+const freqMeta = {
+  daily:      { label:'每天可餵',   icon:'🟢', cls:'freq-daily',     desc:'營養均衡、草酸低，適合作為每日主食。' },
+  moderate:   { label:'每週3–4次', icon:'🟡', cls:'freq-moderate',  desc:'可定期餵食，建議與其他植物輪替搭配。' },
+  occasional: { label:'每週1–2次', icon:'🟠', cls:'freq-occasional', desc:'含草酸或刺激性成分，少量偶爾補充即可。' },
+};
 
 const categoryOrder = ['plantain','asteraceae','amaranth','pennywort','moraceae'];
 const categoryMeta = {
@@ -602,13 +639,17 @@ function render() {
         : `<div class="img-loading">${p.emoji}</div>
            <span class="card-category-badge ${meta.cls}">${p.catLabel}</span>`;
 
+      const fm = freqMeta[p.freq];
       card.innerHTML = `
         <div class="card-img-wrap" id="img-wrap-${p.id}">${imgWrapHtml}</div>
         <div class="card-body">
           <div class="card-name">${p.name}</div>
           ${p.alias ? `<div class="card-alias">別名：${p.alias}</div>` : ''}
           <div class="card-latin">${p.latin}</div>
-          <span class="card-tag ${meta.cls}">${p.catLabel}</span>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+            <span class="card-tag ${meta.cls}">${p.catLabel}</span>
+            <span class="freq-badge ${fm.cls}">${fm.icon} ${fm.label}</span>
+          </div>
         </div>`;
 
       // If image already cached, apply immediately
@@ -628,6 +669,7 @@ function render() {
 /* ── Modal ── */
 function openModal(p) {
   const meta = categoryMeta[p.category];
+  const fm   = freqMeta[p.freq];
   const modal = document.getElementById('modal');
   const imgUrl = imgCache[p.id];
 
@@ -643,6 +685,13 @@ function openModal(p) {
       ${p.alias ? `<div class="modal-alias">別名：${p.alias}</div>` : ''}
       <div class="modal-latin">${p.latin}</div>
       <div class="modal-section"><h3>植物描述</h3><p>${p.desc}</p></div>
+      <div class="modal-freq ${fm.cls}">
+        <span style="font-size:1.4rem">${fm.icon}</span>
+        <div>
+          <div class="modal-freq-label">餵食頻率：${fm.label}</div>
+          <div style="font-size:0.82rem;margin-top:2px;opacity:0.85">${fm.desc}</div>
+        </div>
+      </div>
       <div class="modal-tip">💡 ${p.tip}</div>
     </div>`;
 
